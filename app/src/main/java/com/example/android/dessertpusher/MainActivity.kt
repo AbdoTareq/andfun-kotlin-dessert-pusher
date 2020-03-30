@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     private var revenue = 0
     private var dessertsSold = 0
+    private lateinit var dessertTimer: DessertTimer
 
     // Contains all the views
     private lateinit var binding: ActivityMainBinding
@@ -75,12 +76,22 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
             onDessertClicked()
         }
 
+        if (savedInstanceState != null){
+            revenue = savedInstanceState.getInt("revenue",100)
+            dessertsSold = savedInstanceState.getInt("dessertsSold",100)
+            dessertTimer.secondsCount = savedInstanceState.getInt("secondsCount",100)
+        }
+
         // Set the TextViews to the right values
         binding.revenue = revenue
         binding.amountSold = dessertsSold
 
+        dessertTimer = DessertTimer(this.lifecycle)
+
         // Make sure the correct dessert is showing
         binding.dessertButton.setImageResource(currentDessert.imageId)
+
+
     }
 
     /**
@@ -155,5 +166,36 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     override fun onStart() {
         super.onStart()
         Timber.i("onStart Called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Timber.i("onDestroy Called")
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Timber.i("onPause Called")
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Timber.i("onResume Called")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Timber.i("onStop Called")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putInt("revenue", revenue)
+        outState.putInt("dessertsSold", dessertsSold)
+        outState.putInt("secondsCount", dessertTimer.secondsCount)
+
     }
 }
