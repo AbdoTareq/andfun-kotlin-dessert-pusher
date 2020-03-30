@@ -18,7 +18,6 @@ package com.example.android.dessertpusher
 
 import android.content.ActivityNotFoundException
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -79,7 +78,10 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         if (savedInstanceState != null){
             revenue = savedInstanceState.getInt("revenue",100)
             dessertsSold = savedInstanceState.getInt("dessertsSold",100)
-            dessertTimer.secondsCount = savedInstanceState.getInt("secondsCount",100)
+//            dessertTimer.secondsCount = savedInstanceState.getInt("secondsCount",100)
+
+            showCurrentDessert()
+
         }
 
         // Set the TextViews to the right values
@@ -193,9 +195,16 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
+        Timber.i("onSaveInstanceState Called")
+
         outState.putInt("revenue", revenue)
         outState.putInt("dessertsSold", dessertsSold)
-        outState.putInt("secondsCount", dessertTimer.secondsCount)
+//        outState.putInt("secondsCount", dessertTimer.secondsCount)
 
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        Timber.i("onRestoreInstanceState Called")
     }
 }
